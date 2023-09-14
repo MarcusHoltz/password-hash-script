@@ -15,6 +15,8 @@
 #######################################################
 PASSWORD_FILES_LOCATION=~/Documents/.passwords
 #######################################################
+# Turns out this is a terrible metric for benchmarking.
+# I should run the encryption with `time` and capture the output, use that output n+1 as the correct sleep time.
 # How fast is this machine?
 COMPOOTER_SPEED=$(lscpu | grep -oP "BogoMIPS:\s+\K\w+")
 # Check if COMPOOTER_SPEED is in one of the specified ranges
@@ -29,10 +31,10 @@ else
 fi
 # Define an associative array to map ENCRYPTION_SPEED values to sleep durations
 declare -A sleep_times
-sleep_times["SLOW"]=30
-sleep_times["OK"]=17
-sleep_times["GOOD"]=8
-sleep_times["GREAT"]=5
+sleep_times["SLOW"]=17
+sleep_times["OK"]=5
+sleep_times["GOOD"]=3
+sleep_times["GREAT"]=2
 # Done with benchmark for sleep length assignment
 echo -e "\n**************************************************************************\nWelcome to password generator, please follow instructions below\n**************************************************************************"
 echo -e "(Example: seniorclass, mymom, personalstuff)\nEnter group to use for this password:"
