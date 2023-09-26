@@ -6,7 +6,7 @@
 ## This script hopes to create a hashed password     ##
 ## that cannot be found in a rainbow table           ##
 #######################################################
-## This script requires 270MB of free RAM            ##
+## This script requires 135MB of free RAM            ##
 ## Be sure you have installed:                       ##
 ##          zip, openssl, argon2                     ##
 #######################################################
