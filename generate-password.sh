@@ -1,63 +1,61 @@
 #!/bin/bash
 ########################################################
-#####          What does this script do?           #####
+#####          What does this script do?           #####
 ########################################################
 ## Inspired by: https://github.com/pashword/pashword ##
-## This script hopes to create a hashed password     ##
-## that cannot be found in a rainbow table           ##
+## This script hopes to create a hashed password     ##
+## that cannot be found in a rainbow table           ##
 #######################################################
-## This script requires 270MB of free RAM            ##
-## Be sure you have installed:                       ##
-##          zip, openssl, argon2                     ##
+## This script requires 270MB of free RAM            ##
+## Be sure you have installed:                       ##
+##          zip, openssl, argon2                     ##
 #######################################################
-## What directory do you want to                     ##
-## store your password files in?                     ##
+## What directory do you want to                     ##
+## store your password files in?                     ##
 #######################################################
 PASSWORD_FILES_LOCATION=~/Documents/.passwords
 #######################################################
-# Turns out this is a terrible metric for benchmarking.
-# I should run the encryption with `time` and capture the output, use that output n+1 as the correct sleep time.
 # How fast is this machine?
-COMPOOTER_SPEED=$(lscpu | grep -oP "BogoMIPS:\s+\K\w+")
-# Check if COMPOOTER_SPEED is in one of the specified ranges
-if ((COMPOOTER_SPEED >= 0 && COMPOOTER_SPEED <= 5000)); then
-  ENCRYPTION_SPEED=SLOW
-elif ((COMPOOTER_SPEED >= 5001 && COMPOOTER_SPEED <= 7999)); then
-  ENCRYPTION_SPEED=OK
-elif ((COMPOOTER_SPEED >= 8000 && COMPOOTER_SPEED <= 11000)); then
-  ENCRYPTION_SPEED=GOOD
+VAR_MIPS_SPEED=$(lscpu | grep -oP "BogoMIPS:\s+\K\w+")
+# Check if VAR_MIPS_SPEED is in one of the specified ranges
+if ((VAR_MIPS_SPEED >= 0 && VAR_MIPS_SPEED <= 5000)); then
+  ENCRYPTION_SPEED=SLOW
+elif ((VAR_MIPS_SPEED >= 5001 && VAR_MIPS_SPEED <= 7999)); then
+  ENCRYPTION_SPEED=OK
+elif ((VAR_MIPS_SPEED >= 8000 && VAR_MIPS_SPEED <= 11000)); then
+  ENCRYPTION_SPEED=GOOD
 else
-  ENCRYPTION_SPEED=GREAT
+  ENCRYPTION_SPEED=GREAT
 fi
 # Define an associative array to map ENCRYPTION_SPEED values to sleep durations
 declare -A sleep_times
-sleep_times["SLOW"]=17
-sleep_times["OK"]=5
+sleep_times["SLOW"]=8
+sleep_times["OK"]=4
 sleep_times["GOOD"]=3
 sleep_times["GREAT"]=2
 # Done with benchmark for sleep length assignment
 echo -e "\n**************************************************************************\nWelcome to password generator, please follow instructions below\n**************************************************************************"
 echo -e "(Example: seniorclass, mymom, personalstuff)\nEnter group to use for this password:"
 read -s PASWRD1_phrase
-echo -e "Great!\n"; sleep .5; echo -e "Now enter your age:"
+echo -e "Great!\n"; sleep .25; echo -e "Now enter your age:"
 read -s PASWRD1_age
-echo -e "Is this a marketing survey, or a password generator...\n"; sleep .5; echo -e "Next, with the **first letter capitalized**, \nEnter the name of the **Website or Service** you're creating a password for:"
+echo -e "Is this a marketing survey, or a password generator...\n"; sleep .25; echo -e "Next, with the **first letter capitalized**, \nEnter the name of the **Website or Service** you're creating a password for:"
 read -s PASWRD1_service
-echo -e "\nBe sure that first character was a capital letter!"; sleep 1
-echo -e "This script will insert a colon now     :     \n"
+echo -e "\nBe sure that first character was a capital letter!"; sleep .25
+echo -e "This script will insert a colon now     :     \n"
 echo -e "Now enter your username, tied to the service above:"
 read -s PASWRD1_username
 echo -e "Last Step.\n\nEnter a password that you can remember:"
 read -s PASWRD1_password
-echo -e "\nGreat!"; sleep .5; echo -e "We're done entering our information!"
+echo -e "\nGreat!"; sleep .25; echo -e "We're done entering our information!"
 sleep 1;
-echo -e "\n**********************************************************************\n   Let's pass this data into our hash  (may take up to 30 seconds)\n**********************************************************************"; sleep 1;
+echo -e "\n**********************************************************************\n   Let's pass this data into our hash  (may take up to 30 seconds)\n**********************************************************************"; sleep 1;
 # Make sure that directory exists, or create it
 if [ -d ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase} ]
 then
-    echo "I am glad you like this script."
+    echo "I am glad you like this script."
 else
-    mkdir -p ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}
+    mkdir -p ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}
 fi
 # Done with directory concerns
 # Record the variables we need later on
@@ -68,7 +66,7 @@ PASWRD1_salt=${PASWRD1_service}${PASWRD1_username}
 mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username}.txt && echo -n $PASWRD1_full > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username}.txt &
 sleep 2;
 # the file containing the hash is named without the .txt
-mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} && echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon2 ${PASWRD1_salt} -id -e -t 16 -m 18 -p 8 -l 32 | sed 's/.*\$//' > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} &
+mkfifo ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} && echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -e -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//' > ${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}--${PASWRD1_username} &
 # Sleep for as long as the hash takes, to keep our file open in the pipe
 sleep ${sleep_times["$ENCRYPTION_SPEED"]};
 # ZIP up both files, original and hash, with the password that was chosen above.
@@ -83,4 +81,4 @@ echo -e "It is currently only encrypted as a zip,\nwith 'the password that you c
 echo -e "Your hashed and unhashed information is stored in:"
 echo -e "${PASSWORD_FILES_LOCATION}/.${PASWRD1_phrase}/.password-${PASWRD1_service}.zip\n"
 echo -e "Your final hashed password is:"
-echo -n $PASWRD1_full | openssl dgst -sha3-384 | sed 's/.*[[:space:]]//' | argon2 ${PASWRD1_salt} -id -e -t 16 -m 18 -p 8 -l 32 | sed 's/.*\$//'
+echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -e -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//'
