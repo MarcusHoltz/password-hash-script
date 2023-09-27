@@ -1,5 +1,15 @@
 #!/bin/bash
 ########################################################
+###################   TO - DO   ########################
+## - Turn the lengthy survey into a function          ##
+## - Call the function instead of repeating survey    ##
+## - Use the array to create dirs                     ##
+## - Remove benchmark and test if speeds can improve  ##
+## - Produce mnemonic for remembering argon2 prefs    ##
+##   *  13 + 4 = 17                                   ##
+##      13 interations, 4 cores, N^17 memory          ##
+########################################################
+########################################################
 #####          What does this script do?           #####
 ########################################################
 ## Inspired by: https://github.com/pashword/pashword ##
