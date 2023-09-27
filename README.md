@@ -58,12 +58,18 @@ ENCRYPTED_PASSWORD_FILES_LOCATION=~/Documents/.passencrypted-on-disk
 
 ## Visual representation of what the script does:
 ```
-     ┌────────────┐     ┌───────────┐     ┌────────────┐
-     │            │     │           │     │            │
-     │            │     │           │     │ ┌────────┐ │
-     │            │     │           │     │ │  I N   │ │
-     │ U S E R    │     │           │     │ │ memory │ │
-     │            ├────►│ Combined  ├────►│ │Password│ ├─┐
+  ┌────────────────────────────────────────────────────┐
+  │                                                    │
+  │ gocryptfs directory created and password encrypted │
+┌─┤                                                    │
+│ └────────────────────────────────────────────────────┘
+│
+│
+│    ┌────────────┐     ┌───────────┐     ┌────────────┐
+│    │            │     │           │     │ ┌────────┐ │
+│    │            │     │           │     │ │  I N   │ │
+│    │ U S E R    │     │           │     │ │ memory │ │
+└───►│            ├────►│ Combined  ├────►│ │Password│ ├─┐
      │            │     │  U S E R  │     │ └────────┘ │ │
      │  I N P U T │     │ I N P U T │     │  TXT       │ │
      │            │     │           │     │  FORMAT    │ │
@@ -71,22 +77,24 @@ ENCRYPTED_PASSWORD_FILES_LOCATION=~/Documents/.passencrypted-on-disk
                                                          │
 ┌────────────────────────────────────────────────────────┘
 │
-│  ┌─────────────┐  ┌────────────┐  ┌─────────────────────────┐
-│  │             │  │            │  │                         │
-│  │ ┌─────────┐ │  │ ┌────────┐ │  │       ┌────────┐        │
-│  │ │  I N    │ │  │ │  I N   │ │  │       │  I N   │        │
-└─►│ │ memory  │ ├─►│ │ memory │ ├─►│       │ memory │        │
-   │ │Password │ │  │ │Password│ │  │       │Password│        │
-   │ └─────────┘ │  │ └────────┘ │  │       └────────┘        │
-   │  SHA3-384   │  │  Argon2    │  │ Encrypted Zip Created   │
-   │   H A S H   │  │  H A S H   │  │ txt & hash files inside │
-   └─────────────┘  └────────────┘  └────────────────────┬────┘
-                                                         │
- ┌───────────────────────────────────────────────────┐   │
- │                                                   │   │
- │ Finished  Argon2  Hash  is  reprinted  on  screen │◄──┘
- │                                                   │
- └───────────────────────────────────────────────────┘
+│  ┌─────────────┐  ┌────────────┐  ┌────────────────────┐
+│  │ ┌─────────┐ │  │ ┌────────┐ │  │    unmounted       │
+│  │ │  I N    │ │  │ │  I N   │ │  │    gocryptfs       │
+│  │ │ memory  │ │  │ │ memory │ │  │    ──────────      │
+│  │ │Password │ │  │ │Password│ │  │                    │
+│  │ └─────────┘ │  │ └────────┘ │  │   Encrypted Zip    │
+│  │             │  │ S A L T    ├─►│      Created       │
+│  │             ├─►│    +       │  │                    │
+└─►│  SHA3-384   │  │  Argon2    │  │     txt & hash     │
+   │   H A S H   │  │  H A S H   │  │    files inside    │
+   └─────────────┘  └────────────┘  └───────────────────┬┘
+                                                        │
+  ┌───────────────────────────────────────────────────┐ │
+  │                                                   │ │
+  │ Finished  Argon2  Hash  is  reprinted  on  screen │◄┘
+  │                                                   │
+  └───────────────────────────────────────────────────┘
+
 ```
 
 
