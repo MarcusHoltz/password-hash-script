@@ -35,15 +35,19 @@ Repeatable, unique passwords for every service or website
 #######################################################
 ## This script requires 135MB of free RAM            ##
 ## Be sure you have installed:                       ##
-##          zip, openssl, argon2                     ##
+##       zip openssl argon2 gocryptfs fuse           ##
 #######################################################
 ## What directory do you want to                     ## 
 ## store your password files in?                     ##
+#######################################################
+PASSWORD_FILES_LOCATION=~/Documents/.passwords
+ENCRYPTED_PASSWORD_FILES_LOCATION=~/Documents/.passencrypted-on-disk
 #######################################################
 This is the only area in the script that would need
             user input for editing
 --------------------------------------------------------
 PASSWORD_FILES_LOCATION=~/Documents/.passwords
+ENCRYPTED_PASSWORD_FILES_LOCATION=~/Documents/.passencrypted-on-disk
 ```
 
 
