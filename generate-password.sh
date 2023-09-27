@@ -51,20 +51,14 @@ if [[ $hashOrNot == "Y" || $hashOrNot == "y" ]]; then
     echo -e "Your hashed password is:"
     echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -e -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//'
 exit;
-
-fi
-
-
-if [ ! -d "$ENCRYPTED_PASSWORD_FILES_LOCATION" ]; then
-    mkdir -p "$ENCRYPTED_PASSWORD_FILES_LOCATION"
 fi
 ### Are the directories needed, created?
-## Check if PASSWORD_FILES_LOCATION exists
+# Check if PASSWORD_FILES_LOCATION exists
 if [ ! -d "$PASSWORD_FILES_LOCATION" ]; then
     mkdir -p "$PASSWORD_FILES_LOCATION"
 fi
 ###
-## Check if ENCRYPTED_PASSWORD_FILES_LOCATION exists
+# Check if ENCRYPTED_PASSWORD_FILES_LOCATION exists
 if [ ! -d "$ENCRYPTED_PASSWORD_FILES_LOCATION" ]; then
     mkdir -p "$ENCRYPTED_PASSWORD_FILES_LOCATION"
 fi
