@@ -92,6 +92,7 @@ fi
 ### Check if gocrypt folder has been initialized
 ### Run `gocryptfs -init` if no config file exists
 ### Nag screen for the user along with sleep timer
+### Include for errors like: already mounted, incorrect password
 umount $PASSWORD_FILES_LOCATION 2>/dev/null
 if [ ! -e "$ENCRYPTED_PASSWORD_FILES_LOCATION/gocryptfs.conf" ]; then
     echo -e "****************************************************\nTo begin, please encrypt your passwords directory.\n              Use a STRONG password.\nAnd write down your MASTER KEY, when it appears.\n****************************************************"
@@ -108,7 +109,6 @@ fi
 ###
 ### If a gocryptfs folder has been initialized
 ### Mount gocryptfs folder unencrypted to a read/write location
-### Include for errors like: already mounted, incorrect password
 echo -e -n "**************************************************************\n   Access your on disk gocryptfs encrypted passwords folder\n**************************************************************\nEnter Password:"
 gocryptfs $ENCRYPTED_PASSWORD_FILES_LOCATION $PASSWORD_FILES_LOCATION 2>/dev/null
 if [ $? -ne 0 ]; then
