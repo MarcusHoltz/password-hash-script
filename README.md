@@ -109,8 +109,9 @@ ENCRYPTED_PASSWORD_FILES_LOCATION=~/Documents/.passencrypted-on-disk
 ############################################
 # Group - helps the user keep these passwords organized in their head. It's repeatable through multiple passwords.
 # Age - random number data, but also, reminds the user to change their password yearly. If you try and hash 23 and it doesnt work, hash 22, and it does -- that reminds you to update the hash to this years age. 
-# Service - Very important. This helps name all the files, is also used in the salt.
-# Username - Should be different for each site. Also used for the salt.
+# Service - very important. This helps name all the files, is also used in the salt.
+# Username - should be different for each site. Also used for the salt.
+# Your Mind - something that exists exclusively in the contents of your mind only used in the salt, never saved. 
 #################################################
 ```
 
