@@ -78,9 +78,11 @@ echo -e "*************************************************************\nAnswer e
     read_data WEBSITE_or_SERVICE
     read_data USERNAME
     read_data ZIP_PASSWORD
+    sleep .5; echo -e "\nEnter now, something that exists only in the contents of your mind:\n(Example: Do not use dogs names, street names, or any known item.)"
+    read_data YOUR_MIND_ONLY
     clear
         PASWRD1_full=${GROUP}${AGE}${WEBSITE_or_SERVICE}:${USERNAME}${ZIP_PASSWORD}
-        PASWRD1_salt=${GROUP}${WEBSITE_or_SERVICE}${USERNAME}
+        PASWRD1_salt=${GROUP}${WEBSITE_or_SERVICE}${USERNAME}${YOUR_MIND_ONLY}
     echo -e "Your hashed password is:"
         echo -n $PASWRD1_full | openssl dgst -sha3-384 | echo -n $(awk '{print $2}') | argon2 ${PASWRD1_salt} -id -e -t 13 -m 17 -p 4 -l 32 | sed 's/.*\$//'
 exit;
@@ -129,8 +131,10 @@ echo -e "\n(Example of a Group: seniorclass, mymom, personalstuff)"
     read_data WEBSITE_or_SERVICE
     read_data USERNAME
     read_data ZIP_PASSWORD
+    sleep .5; echo -e "\nEnter now, something that exists only in the contents of your mind:\n(Example: Do not use dogs names, street names, or any known item.)"
+    read_data YOUR_MIND_ONLY
         PASWRD1_full=${GROUP}${AGE}${WEBSITE_or_SERVICE}:${USERNAME}${ZIP_PASSWORD}
-        PASWRD1_salt=${GROUP}${WEBSITE_or_SERVICE}${USERNAME}
+        PASWRD1_salt=${GROUP}${WEBSITE_or_SERVICE}${USERNAME}${YOUR_MIND_ONLY}
 echo -e "\n**********************************************************************\n   Let's pass this data into our hash  (may take up to 30 seconds)\n**********************************************************************"; sleep 1;
 ### If the group directory already exists compliment the user, or create the directory
 if [ -d ${PASSWORD_FILES_LOCATION}/.${GROUP} ]
