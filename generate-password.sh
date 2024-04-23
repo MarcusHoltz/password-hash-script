@@ -177,7 +177,7 @@ umount $PASSWORD_FILES_LOCATION 2>/dev/null
 echo -e "\nYour passwords folder is currently encrypted, and has a passworded zip\nwith 'the zip password' that you set earlier.\n"; sleep 1;
 echo -e "You can access the encrypted passwords folder again with the command:"
 echo -e "gocryptfs $ENCRYPTED_PASSWORD_FILES_LOCATION $PASSWORD_FILES_LOCATION"
-echo -e "\nYour hashed and unhashed information is stored in:"
+echo -e "\nYour hashed and unhashed information, with an exemption for \n'something that exists only in the contents of your mind', is stored in:"
 echo -e "${PASSWORD_FILES_LOCATION}/.${GROUP}/.password-${WEBSITE_or_SERVICE}.zip\n"
 ### Password is hashed one more time for display in the terminal
 echo -e "Your final hashed password is:"
