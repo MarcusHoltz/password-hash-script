@@ -78,7 +78,7 @@ echo -e "*************************************************************\nAnswer e
     read_data WEBSITE_or_SERVICE
     read_data USERNAME
     read_data ZIP_PASSWORD
-    clear
+    clear -x
         PASWRD1_full=${GROUP}${AGE}${WEBSITE_or_SERVICE}:${USERNAME}${ZIP_PASSWORD}
         PASWRD1_salt=${GROUP}${WEBSITE_or_SERVICE}${USERNAME}
     echo -e "Your hashed password is:"
